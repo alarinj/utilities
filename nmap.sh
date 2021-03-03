@@ -1,9 +1,9 @@
 #!/bin/bash
-# This is a script designed to speed up nmap scans
-# Append the IP you want to scan to the script in terminal
-# Example: ./nmap.sh <TARGET_IP>
+# This is a script designed to speed up nmap scans.
+# Append the IP you want to scan to the script in terminal.
+# Example: ./nmap.sh <TARGET_IP>.
 # You can change the script and add the commands you wish in the section down below.
-# First scan is gonna check for the most common ports, second one is gonna be on the full port range
+# First scan is gonna check for the most common ports, second one is gonna be on the full port range.
 ip=$1;
 if  [ -z "$ip" ];
 then
