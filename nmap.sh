@@ -12,7 +12,7 @@ then
 else
 	echo "[+] Checking ports:";
 	echo "";
-	nmap $ip -p- | grep -E '(open|closed|filtered|unfiltered)' | sed -n '1!p' > .open-ports.txt;
+	nmap $ip -p- | grep -E '(open|closed|filtered|unfiltered)' | sed '1d' > .open-ports.txt;
 	echo '[+] Ports found:'; cat .open-ports.txt;
 	cat .open-ports.txt | awk {'print $1'} |grep -o '[0-9]*' > .open-ports2.txt;
 	echo "";
