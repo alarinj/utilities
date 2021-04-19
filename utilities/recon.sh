@@ -17,24 +17,21 @@ else
 	echo "";
 	echo "[+] Task completed.";
 	echo "[+] Scan saved in $(pwd)/nmap-fastscan_$ip.txt";
-	cat .open-ports2.txt | grep -x 80 > .open-ports3.txt;
-	cat .open-ports2.txt | grep -x 443 > .open-ports4.txt;
-	while read x; do site=$x; done < .open-ports3.txt;
-	if [ "$site" = "80" ]; then
-		echo "[+] Starting gobuster";
-		gobuster dir -u $ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster-log_$ip.txt";
-		echo "[+] Scan saved in $(pwd)/gobuster-log_$ip.txt"
-	else
-		echo "[-] No port 80 found, skipping gobuster scan."
-	fi
-	while read y; do site2=$y; done < .open-ports4.txt;
-	if [ "$site2" = "443" ]; then
-		echo "[+] Starting gobuster";
-		gobuster dir -k -u "https://$ip" -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_443-log_$ip.txt";
-		echo "[+] Scan saved in $(pwd)/gobuster_443-log_$ip.txt"
-	else
-		echo "[-] No port 443 found, skipping gobuster scan."
-	fi
+	cat .open-ports.txt | grep http | grep -o '[0-9]*' > .open-ports3.txt
+	while read -r line; do 
+		if [ "$line" = "443" ]; then
+			echo "[+] Starting gobuster"
+			gobuster dir -k -u https://$ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
+			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
+		elif [ "$line" = "80" ]; then
+			echo "[+] Starting gobuster"
+			gobuster dir -u $ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
+			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
+		else
+			echo "[-] No http/https service found"
+			break
+		fi
+	done < .open-ports3.txt
 	echo "[+] Cleaning up.";
 	rm .open-ports*.txt;
 	echo "[+] Removed temp files.";
@@ -49,7 +46,7 @@ else
 	cat .open-ports.txt | awk {'print $1'} |grep -o '[0-9]*' > .open-ports2.txt;
 	echo "";
 	echo "[+] Starting service scan:";
-	nmap -sC -sV -p $(tr '\n' , <.open-ports2.txt) -oN "nmap-indepthscan_$ip.txt" $ip;
+	nmap --script="default,safe" -sV -p $(tr '\n' , <.open-ports2.txt) -oN "nmap-indepthscan_$ip.txt" $ip;
 	echo "";
 	echo "[+] Task completed.";
 	echo "[+] Scan saved in $(pwd)/nmap-indepthscan_$ip.txt";
