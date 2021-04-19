@@ -1,11 +1,11 @@
 #!/bin/bash
 hash=$0
 file=$1
-#Check input utente
+#Check user input
 if [ -z "$file" ]
 then
-	echo -e "[-] Inserisci un file\n[-] Esempio: $hash </home/user/test.txt>\n[-] Al termine si può inviare hash a VirusTotal per controllare se vi sono dei match"
-#Funzione principale
+	echo -e "[-] Add a file\n[-] Example: $hash </home/user/test.txt>\n[-] When the ccalculation is done, it's possible to sent the hash to VirusTotal to check it"
+#Main function
 else
 	md5=$(md5sum $file | awk {'print $1'})
 	sha1=$(sha1sum $file | awk {'print $1'})
@@ -14,16 +14,16 @@ else
 	echo -e "\n[+] MD5: $md5"
 	echo -e "[+] SHA1: $sha1"
 	echo -e "[+] SHA256: $sha256"
-	#Invio hash VirusTotal tramite browser
-	echo -e "\nVuoi controllare hash su VirusTotal?"
+	#Send hash via browser
+	echo -e "\nWant to check the hash on VirusTotal?"
 	select yn in "Yes" "No"; do
 		case $yn in
 			Yes ) break;;
 			No ) echo -e "Bye!"; exit;;
 		esac
 	done
-	#Controllo browser di default
-	echo -e "\n[+] Ricerca dell'hash su VirusTotal\n[+] Al termine si aprirà scheda nel browser\n"
+	#Check default browser
+	echo -e "\n[+] Sending the hash to VirusTotal.\n[+] The search will appear on the browser.\n"
 	sleep 1
 	if which xdg-open > /dev/null
 	then
