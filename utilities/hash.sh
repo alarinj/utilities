@@ -4,7 +4,7 @@ file=$1
 #Check user input
 if [ -z "$file" ]
 then
-	echo -e "[-] Add a file\n[-] Example: $hash </home/user/test.txt>\n[-] When the ccalculation is done, it's possible to sent the hash to VirusTotal to check it"
+	echo -e "[-] Add a file\n[-] Example: $hash </home/user/test.txt>\n[-] When the calculation is done, it's possible to sent the hash to VirusTotal to check it"
 #Main function
 else
 	md5=$(md5sum $file | awk {'print $1'})
