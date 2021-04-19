@@ -20,15 +20,15 @@ else
 	cat .open-ports.txt | grep http | grep -o '[0-9]*' > .open-ports3.txt
 	while read -r line; do 
 		if [ "$line" = "443" ]; then
-			echo "[+] Starting gobuster"
+			echo "[+] Starting gobuster:"
 			gobuster dir -k -u https://$ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
 			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
 		elif [ "$line" = "80" ]; then
-			echo "[+] Starting gobuster"
+			echo "[+] Starting gobuster:"
 			gobuster dir -u $ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
 			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
 		else
-			echo "[-] No http/https service found"
+			echo "[-] No http/https service found!"
 			break
 		fi
 	done < .open-ports3.txt
