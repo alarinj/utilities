@@ -18,11 +18,22 @@ else
 	echo "[+] Task completed.";
 	echo "[+] Scan saved in $(pwd)/nmap-fastscan_$ip.txt";
 	cat .open-ports2.txt | grep -x 80 > .open-ports3.txt;
+	cat .open-ports2.txt | grep -x 443 > .open-ports4.txt;
 	while read x; do site=$x; done < .open-ports3.txt;
 	if [ "$site" = "80" ]; then
 		echo "[+] Starting gobuster";
 		gobuster dir -u $ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster-log_$ip.txt";
 		echo "[+] Scan saved in $(pwd)/gobuster-log_$ip.txt"
+	else
+		echo "[-] No port 80 found, skipping gobuster scan."
+	fi
+	while read y; do site2=$y; done < .open-ports4.txt;
+	if [ "$site2" = "443" ]; then
+		echo "[+] Starting gobuster";
+		gobuster dir -k -u "https://$ip" -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_443-log_$ip.txt";
+		echo "[+] Scan saved in $(pwd)/gobuster_443-log_$ip.txt"
+	else
+		echo "[-] No port 443 found, skipping gobuster scan."
 	fi
 	echo "[+] Cleaning up.";
 	rm .open-ports*.txt;
