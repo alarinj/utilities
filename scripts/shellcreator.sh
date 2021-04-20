@@ -91,7 +91,6 @@ margs_check $marg0 $marg1
 # Shell function
 echo "[PORT] Port number: $port"
 ifconfig $marg0 | grep inet | awk '{print $2}' | head -n 1 > .ip.txt
-#cat .ip.txt #Test grabbed IP
 if [ "$marg1" = "bash" ]; then
     while read i; do exist=$i; done < .ip.txt;
       if [ -z "$exist" ]; then
