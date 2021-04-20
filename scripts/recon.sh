@@ -34,6 +34,7 @@ function check {
 		ipcheck=$(cat .ipcheck.txt)
 		if [ -z "$ipcheck" ]; then
 			echo "[-] Invalid IP/host."
+			rm .ipcheck.txt
 			help
 			exit
 		else
