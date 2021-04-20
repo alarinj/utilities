@@ -29,24 +29,18 @@ function check {
 	elif [ "$ip" == "--install" ]; then
 		install_req
 	else
-		echo "[+] Testing $ip to check if it's valid."
-		ping -c1 $ip | grep ttl |awk {'print $7'} > .ipcheck.txt
-		ipcheck=$(cat .ipcheck.txt)
-		if [ -z "$ipcheck" ]; then
-			echo "[-] Invalid IP/host."
-			rm .ipcheck.txt
-			help
-			exit
-		else
-			rm .ipcheck.txt
-			main
-		fi
+		main
 	fi
 }
 function fastscan {
 	echo "[+] Fast Scan: Checking most common ports.";
 	echo "";
 	nmap $ip  -n | grep -E '(open|closed|filtered|unfiltered)' | sed '1d' > .open-ports.txt;
+	ipcheck=$(cat .open-ports.txt)
+	if [ -z "$ipcheck" ]; then
+		echo "[-] Host seems to be down."
+		exit
+	fi
 	echo '[+] Ports found:'; cat .open-ports.txt;
 	cat .open-ports.txt | awk {'print $1'} |grep -o '[0-9]*' > .open-ports2.txt;
 	echo "";
