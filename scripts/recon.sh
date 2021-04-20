@@ -85,7 +85,7 @@ function indepthscan {
 	echo "[+] Initiating in depth scan."
 	echo "[+] Checking ports. Don't worry, can take a while.";
 	echo "";
-	nmap $ip -p- -n | grep -E '(open|closed|filtered|unfiltered)' | sed '1d' > .open-ports.txt;
+	nmap $ip -p- -n -sV | grep -E '(open|closed|filtered|unfiltered)' | sed '1d' > .open-ports.txt;
 	cp ./.open-ports.txt open_ports_$ip.txt;
 	echo '[+] Ports found:'; cat .open-ports.txt;
 	echo "[+] Ports saved in $(pwd)/open_ports_$ip.txt";
