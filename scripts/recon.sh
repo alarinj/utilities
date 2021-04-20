@@ -18,8 +18,8 @@ function help {
 	exit
 }
 function usage {
-	echo -e "\nUSAGE:\n\ntest.sh 		<ip> or <hostname>\n"
-	echo -e "Example: 		test.sh 0.0.0.0 or test.sh example.com\n"
+	echo -e "\nUSAGE:\n\nrecon.sh 		<ip> or <hostname>\n"
+	echo -e "Example: 		recon.sh 0.0.0.0 or recon.sh example.com\n"
 }
 function check {
 	if [ -z "$ip" ] || [ "$ip" == "--help" ] || [ "$ip" == "-h" ]; then
