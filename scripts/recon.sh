@@ -57,15 +57,12 @@ function gobuster_fun {
 			echo "[+] Starting gobuster:";
 			gobuster dir -k -u https://$ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
 			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
-			break
 		elif [ "$line" = "80" ]; then
 			echo "[+] Starting gobuster:";
 			gobuster dir -u $ip -w /usr/share/dirb/wordlists/common.txt |tee "gobuster_port-$line-log_$ip.txt"
 			echo "[+] Scan saved in $(pwd)/gobuster_port-$line-log_$ip.txt"
-			break
 		else
 			echo "[-] No http/https service found!";
-			break
 		fi
 	done < .open-ports3.txt	
 }
