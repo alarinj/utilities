@@ -83,7 +83,7 @@ function indepthscan {
 	cat .open-ports.txt | awk {'print $1'} |grep -o '[0-9]*' > .open-ports2.txt;
 	echo "";
 	echo "[+] Starting service scan:";
-	nmap --script="default,safe" -sV -p $(tr '\n' , <.open-ports2.txt) -oN "nmap-indepthscan_$ip.txt" $ip;
+	nmap --script="default,safe" -sV -p $(tr '\n' , <.open-ports2.txt) -O -oN "nmap-indepthscan_$ip.txt" $ip;
 	echo "";
 	echo "[+] Task completed.";
 	echo "[+] Scan saved in $(pwd)/nmap-indepthscan_$ip.txt";	
