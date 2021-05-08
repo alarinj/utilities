@@ -18,4 +18,8 @@
 * It can create a reverse shell for bash, nc and php.
 * It accepts 2 flags, -i and -s, the first one to supply a network interface, the second one to select the type of shell; -h is also avaible for a full instructions output.
 * This script requires xclip to function properly. You can install it using the following command: ```sudo apt install xclip```
-* Usage: shellcreator.sh -i tun0 -s bash
+* Usage: shellcreator.sh -i <network_interface> -s <type_of_shell>
+## Ipcreator.sh
+* A small script to create a list of ips, usefull for decoys in nmap and similar tools
+* Usage: ipcreator.sh <number_of_ips_to_create>
+* Example: ipceator.sh 100
