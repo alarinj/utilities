@@ -22,4 +22,4 @@
 ## Ipcreator.sh
 * A small script to create a list of ips, usefull for decoys in nmap and similar tools
 * Usage: ipcreator.sh <number_of_ips_to_create>
-* Example: ipceator.sh 100
+* Example: ```ipceator.sh 100```
