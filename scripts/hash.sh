@@ -12,6 +12,7 @@ function savefile {
 	virustotal
 }
 function virustotal {
+	URL="https://www.virustotal.com/gui/file/$sha256/detection"
 	echo ""
 	read -p "[+] Vuoi controllare hash su VirusTotal? y/n: " yn
 	while true; do
@@ -38,7 +39,6 @@ function hashes {
 	md5=$(md5sum $file | awk {'print $1'})
 	sha1=$(sha1sum $file | awk {'print $1'})
 	sha256=$(sha256sum $file | awk {'print $1'})
-	URL="https://www.virustotal.com/gui/file/$sha256/detection"
 	exif=$(exiftool $file)
 	echo -e "\n[+] MD5: $md5"
 	echo -e "[+] SHA1: $sha1"
