@@ -5,6 +5,7 @@
 ## Hash.sh
 * Is a simple script to calculate the md5 sha1 and sha256 sum of a given file.
 * It's also possible to submit the 256 calculated hash to VirusTotal to check if it's present in their database.
+* It can save the output, if needed
 * Usage: hash.sh file_name
 
 ## Recon.sh
