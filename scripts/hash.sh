@@ -1,6 +1,10 @@
 #!/bin/bash
 hash=$0
 file=$1
+function finishing {
+	echo -e "Analisi del file $file terminata"
+	exit
+}
 function savefile {
 	echo -e "File esaminato: $file" >> "$file.txt"
 	echo -e "\nHASHES:" >> "$file.txt"
@@ -18,7 +22,7 @@ function virustotal {
 	while true; do
 		case $yn in
 			[Yy]* ) break ;;
-			[Nn]* ) echo -e "Bye!"; exit ;;
+			[Nn]* ) finishing ;;
 			*) echo "Rispondere con y per sì e n per no";virustotal ;;
 		esac
 	done
@@ -34,6 +38,7 @@ function virustotal {
   	then
  		gnome-www-browser "$URL"
 	fi
+	finishing
 }
 function hashes {
 	md5=$(md5sum $file | awk {'print $1'})
