@@ -1,29 +1,27 @@
 #!/bin/bash
 hash=$0
 file=$1
-#Check user input
-if [ -z "$file" ]
-then
-	echo -e "[-] Add a file\n[-] Example: $hash </home/user/test.txt>\n[-] When the calculation is done, it's possible to sent the hash to VirusTotal to check it"
-#Main function
-else
-	md5=$(md5sum $file | awk {'print $1'})
-	sha1=$(sha1sum $file | awk {'print $1'})
-	sha256=$(sha256sum $file | awk {'print $1'})
-	URL="https://www.virustotal.com/gui/file/$sha256/detection"
-	echo -e "\n[+] MD5: $md5"
-	echo -e "[+] SHA1: $sha1"
-	echo -e "[+] SHA256: $sha256"
-	#Send hash via browser
-	echo -e "\nWant to check the hash on VirusTotal?"
-	select yn in "Yes" "No"; do
+function savefile {
+	echo -e "File esaminato: $file" >> "$file.txt"
+	echo -e "\nHASHES:" >> "$file.txt"
+	echo -e "MD5: $md5" >> "$file.txt"
+	echo -e "SHA1: $sha1" >> "$file.txt"
+	echo -e "SHA256: $sha256" >> "$file.txt"
+	echo -e "\nMETADATA:\n$exif" >> "$file.txt"
+	echo -e "[+] Dati salvati nel file $file.txt"
+	virustotal
+}
+function virustotal {
+	echo ""
+	read -p "[+] Vuoi controllare hash su VirusTotal? y/n: " yn
+	while true; do
 		case $yn in
-			Yes ) break;;
-			No ) echo -e "Bye!"; exit;;
+			[Yy]* ) break ;;
+			[Nn]* ) echo -e "Bye!"; exit ;;
+			*) echo "Rispondere con y per sì e n per no";virustotal ;;
 		esac
 	done
-	#Check default browser
-	echo -e "\n[+] Sending the hash to VirusTotal.\n[+] The search will appear on the browser.\n"
+	echo -e "\n[+] Ricerca dell'hash su VirusTotal\n[+] Al termine si aprirà scheda nel browser\n"
 	sleep 1
 	if which xdg-open > /dev/null
 	then
@@ -33,6 +31,33 @@ else
   		gnome-open "$URL"
   	elif which gnome-www-browser > /den/null
   	then
-  		gnome-www-browser "$URL"
+ 		gnome-www-browser "$URL"
 	fi
+}
+function hashes {
+	md5=$(md5sum $file | awk {'print $1'})
+	sha1=$(sha1sum $file | awk {'print $1'})
+	sha256=$(sha256sum $file | awk {'print $1'})
+	URL="https://www.virustotal.com/gui/file/$sha256/detection"
+	exif=$(exiftool $file)
+	echo -e "\n[+] MD5: $md5"
+	echo -e "[+] SHA1: $sha1"
+	echo -e "[+] SHA256: $sha256"
+	echo -e "[+] Metadata:\n$exif"
+	echo ""
+	read -p "[+] Vuoi salvare l'output su un file? y/n: " yn
+	while true; do
+		case $yn in
+			[Yy]* ) savefile ;;
+			*) virustotal ;;
+		esac
+	done
+}
+#Check input utente
+if [ -z "$file" ]
+then
+	echo -e "[-] Inserisci un file\n[-] Esempio: $hash </home/user/test.txt>\n[-] Al termine si può inviare hash a VirusTotal per controllare se vi sono dei match"
+#Funzione principale
+else
+	hashes
 fi
